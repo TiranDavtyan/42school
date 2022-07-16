@@ -1,0 +1,21 @@
+Ideally, you’d like to be able to add data indefinitely 
+(or until the program runs out of memory) without specifying in
+advance how many entries you’ll make and without committing the program
+to allocating huge chunks of memory unnecessarily.
+You can do this by calling malloc() after each entry and allocating 
+just enough space to hold the new entry. If the user enters three films,
+the program calls malloc() three times. If the user enters 300 films, 
+the program calls malloc() 300 times.
+This fine idea raises a new problem. To see what it is, compare calling malloc() once,
+asking for enough space for 300 film structures, and calling malloc() 300 times, 
+each time asking
+for enough space for one film structure. 
+The first case allocates the memory as one contiguous memory 
+block and all you need to keep track of the contents is 
+a single pointer-to-struct vari- able (film) that points to the 
+first structure in the block. Simple array notation lets the pointer access each 
+structure in the block, as shown in the preceding code segment. The problem with the second approach 
+is that there is no guarantee that consecutive calls to malloc() yield adja- cent 
+blocks of memory. This means the structures won’t necessarily be stored contiguously (see Figure 17.1).
+Therefore, instead of storing one pointer to a block of 300 structures, you need to store 300 pointers,
+one for each independently allocated structure!
